@@ -1,5 +1,7 @@
 # Churn Prediction API
 
+> Flask REST API ile churn prediction modeli ve modern web arayüzü
+
 Bu proje, Colab'de eğitilmiş bir makine öğrenmesi modelini Flask REST API olarak sunan ve modern bir web arayüzü ile test edilebilen bir uygulamadır.
 
 ## 🚀 Özellikler
