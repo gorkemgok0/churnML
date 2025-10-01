@@ -1,0 +1,228 @@
+/* Custom CSS for Churn Prediction App */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+}
+
+.min-vh-100 {
+    min-height: 100vh;
+}
+
+/* Form styling */
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    padding: 12px 16px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.form-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 8px;
+}
+
+/* Button styling */
+.btn {
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-light:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Result container styling */
+#resultContainer {
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.result-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e9ecef;
+    animation: slideInUp 0.5s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.prediction-badge {
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 12px 24px;
+    border-radius: 50px;
+    display: inline-block;
+    margin: 1rem 0;
+}
+
+.prediction-churn {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+}
+
+.prediction-no-churn {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+}
+
+.probability-bar {
+    height: 8px;
+    border-radius: 4px;
+    background: #e9ecef;
+    overflow: hidden;
+    margin: 1rem 0;
+}
+
+.probability-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1s ease-out;
+}
+
+.probability-high {
+    background: linear-gradient(90deg, #dc3545, #fd7e14);
+}
+
+.probability-medium {
+    background: linear-gradient(90deg, #ffc107, #fd7e14);
+}
+
+.probability-low {
+    background: linear-gradient(90deg, #28a745, #20c997);
+}
+
+/* Loading spinner */
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Alert styling */
+.alert {
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #d1ecf1, #bee5eb);
+    color: #0c5460;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #d4edda, #c3e6cb);
+    color: #155724;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+    color: #721c24;
+}
+
+/* Responsive design */
+@media (max-width: 991.98px) {
+    .min-vh-100 {
+        min-height: auto;
+    }
+    
+    .col-lg-6 {
+        padding: 2rem 0;
+    }
+    
+    .display-4 {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .display-4 {
+        font-size: 2rem;
+    }
+    
+    .btn-lg {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Form validation */
+.was-validated .form-control:invalid,
+.was-validated .form-select:invalid {
+    border-color: #dc3545;
+}
+
+.was-validated .form-control:valid,
+.was-validated .form-select:valid {
+    border-color: #28a745;
+}
+
+/* Animation for form submission */
+.form-submitting {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+/* Icon animations */
+.fa-brain, .fa-chart-line {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

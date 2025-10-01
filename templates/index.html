@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Churn Prediction API</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row min-vh-100">
+            <!-- Sol Panel - Form -->
+            <div class="col-lg-6 bg-primary text-white d-flex align-items-center">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-10">
+                            <div class="text-center mb-5">
+                                <i class="fas fa-brain fa-3x mb-3"></i>
+                                <h1 class="display-4 fw-bold">Churn Prediction</h1>
+                                <p class="lead">Müşteri bilgilerini girerek churn tahmini yapın</p>
+                            </div>
+                            
+                            <form id="predictionForm" class="needs-validation" novalidate>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="gender" class="form-label">Cinsiyet</label>
+                                        <select class="form-select" id="gender" name="gender" required>
+                                            <option value="">Seçiniz...</option>
+                                            <option value="Male">Erkek</option>
+                                            <option value="Female">Kadın</option>
+                                        </select>
+                                        <div class="invalid-feedback">Lütfen cinsiyet seçiniz.</div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="seniorCitizen" class="form-label">Yaşlı Vatandaş</label>
+                                        <select class="form-select" id="seniorCitizen" name="seniorCitizen" required>
+                                            <option value="">Seçiniz...</option>
+                                            <option value="0">Hayır</option>
+                                            <option value="1">Evet</option>
+                                        </select>
+                                        <div class="invalid-feedback">Lütfen seçim yapınız.</div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="partner" class="form-label">Partner</label>
+                                        <select class="form-select" id="partner" name="partner" required>
+                                            <option value="">Seçiniz...</option>
+                                            <option value="Yes">Evet</option>
+                                            <option value="No">Hayır</option>
+                                        </select>
+                                        <div class="invalid-feedback">Lütfen seçim yapınız.</div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="dependents" class="form-label">Bağımlı</label>
+                                        <select class="form-select" id="dependents" name="dependents" required>
+                                            <option value="">Seçiniz...</option>
+                                            <option value="Yes">Evet</option>
+                                            <option value="No">Hayır</option>
+                                        </select>
+                                        <div class="invalid-feedback">Lütfen seçim yapınız.</div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="tenure" class="form-label">Müşteri Süresi (Ay)</label>
+                                        <input type="number" class="form-control" id="tenure" name="tenure" 
+                                               min="0" max="100" required>
+                                        <div class="invalid-feedback">Lütfen geçerli bir süre giriniz.</div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="phoneService" class="form-label">Telefon Hizmeti</label>
+                                        <select class="form-select" id="phoneService" name="phoneService" required>
+                                            <option value="">Seçiniz...</option>
+                                            <option value="Yes">Evet</option>
+                                            <option value="No">Hayır</option>
+                                        </select>
+                                        <div class="invalid-feedback">Lütfen seçim yapınız.</div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="multipleLines" class="form-label">Çoklu Hat</label>
+                                        <select class="form-select" id="multipleLines" name="multipleLines" required>
+                                            <option value="">Seçiniz...</option>
+                                            <option value="Yes">Evet</option>
+                                            <option value="No">Hayır</option>
+                                            <option value="No phone service">Telefon hizmeti yok</option>
+                                        </select>
+                                        <div class="invalid-feedback">Lütfen seçim yapınız.</div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="internetService" class="form-label">İnternet Hizmeti</label>
+                                        <select class="form-select" id="internetService" name="internetService" required>
+                                            <option value="">Seçiniz...</option>
+                                            <option value="DSL">DSL</option>
+                                            <option value="Fiber optic">Fiber Optik</option>
+                                            <option value="No">Hayır</option>
+                                        </select>
+                                        <div class="invalid-feedback">Lütfen seçim yapınız.</div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="onlineSecurity" class="form-label">Online Güvenlik</label>
+                                        <select class="form-select" id="onlineSecurity" name="onlineSecurity" required>
+                                            <option value="">Seçiniz...</option>
+                                            <option value="Yes">Evet</option>
+                                            <option value="No">Hayır</option>
+                                            <option value="No internet service">İnternet hizmeti yok</option>
+                                        </select>
+                                        <div class="invalid-feedback">Lütfen seçim yapınız.</div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="onlineBackup" class="form-label">Online Yedekleme</label>
+                                        <select class="form-select" id="onlineBackup" name="onlineBackup" required>
+                                            <option value="">Seçiniz...</option>
+                                            <option value="Yes">Evet</option>
+                                            <option value="No">Hayır</option>
+                                            <option value="No internet service">İnternet hizmeti yok</option>
+                                        </select>
+                                        <div class="invalid-feedback">Lütfen seçim yapınız.</div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="deviceProtection" class="form-label">Cihaz Koruması</label>
+                                        <select class="form-select" id="deviceProtection" name="deviceProtection" required>
+                                            <option value="">Seçiniz...</option>
+                                            <option value="Yes">Evet</option>
+                                            <option value="No">Hayır</option>
+                                            <option value="No internet service">İnternet hizmeti yok</option>
+                                        </select>
+                                        <div class="invalid-feedback">Lütfen seçim yapınız.</div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="techSupport" class="form-label">Teknik Destek</label>
+                                        <select class="form-select" id="techSupport" name="techSupport" required>
+                                            <option value="">Seçiniz...</option>
+                                            <option value="Yes">Evet</option>
+                                            <option value="No">Hayır</option>
+                                            <option value="No internet service">İnternet hizmeti yok</option>
+                                        </select>
+                                        <div class="invalid-feedback">Lütfen seçim yapınız.</div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="streamingTV" class="form-label">Streaming TV</label>
+                                        <select class="form-select" id="streamingTV" name="streamingTV" required>
+                                            <option value="">Seçiniz...</option>
+                                            <option value="Yes">Evet</option>
+                                            <option value="No">Hayır</option>
+                                            <option value="No internet service">İnternet hizmeti yok</option>
+                                        </select>
+                                        <div class="invalid-feedback">Lütfen seçim yapınız.</div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="streamingMovies" class="form-label">Streaming Filmler</label>
+                                        <select class="form-select" id="streamingMovies" name="streamingMovies" required>
+                                            <option value="">Seçiniz...</option>
+                                            <option value="Yes">Evet</option>
+                                            <option value="No">Hayır</option>
+                                            <option value="No internet service">İnternet hizmeti yok</option>
+                                        </select>
+                                        <div class="invalid-feedback">Lütfen seçim yapınız.</div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="contract" class="form-label">Sözleşme</label>
+                                        <select class="form-select" id="contract" name="contract" required>
+                                            <option value="">Seçiniz...</option>
+                                            <option value="Month-to-month">Aylık</option>
+                                            <option value="One year">Bir yıl</option>
+                                            <option value="Two year">İki yıl</option>
+                                        </select>
+                                        <div class="invalid-feedback">Lütfen seçim yapınız.</div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="paperlessBilling" class="form-label">Kağıtsız Fatura</label>
+                                        <select class="form-select" id="paperlessBilling" name="paperlessBilling" required>
+                                            <option value="">Seçiniz...</option>
+                                            <option value="Yes">Evet</option>
+                                            <option value="No">Hayır</option>
+                                        </select>
+                                        <div class="invalid-feedback">Lütfen seçim yapınız.</div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="paymentMethod" class="form-label">Ödeme Yöntemi</label>
+                                        <select class="form-select" id="paymentMethod" name="paymentMethod" required>
+                                            <option value="">Seçiniz...</option>
+                                            <option value="Electronic check">Elektronik çek</option>
+                                            <option value="Mailed check">Posta ile çek</option>
+                                            <option value="Bank transfer (automatic)">Banka transferi (otomatik)</option>
+                                            <option value="Credit card (automatic)">Kredi kartı (otomatik)</option>
+                                        </select>
+                                        <div class="invalid-feedback">Lütfen seçim yapınız.</div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="monthlyCharges" class="form-label">Aylık Ücret</label>
+                                        <input type="number" class="form-control" id="monthlyCharges" name="monthlyCharges" 
+                                               step="0.01" min="0" required>
+                                        <div class="invalid-feedback">Lütfen geçerli bir ücret giriniz.</div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="totalCharges" class="form-label">Toplam Ücret</label>
+                                        <input type="number" class="form-control" id="totalCharges" name="totalCharges" 
+                                               step="0.01" min="0" required>
+                                        <div class="invalid-feedback">Lütfen geçerli bir ücret giriniz.</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-grid mt-4">
+                                    <button type="submit" class="btn btn-light btn-lg" id="submitBtn">
+                                        <i class="fas fa-magic me-2"></i>Tahmin Yap
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sağ Panel - Sonuç -->
+            <div class="col-lg-6 bg-light d-flex align-items-center">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-10">
+                            <div class="text-center mb-4">
+                                <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
+                                <h2 class="fw-bold text-dark">Tahmin Sonucu</h2>
+                                <p class="text-muted">Model tahminini burada görebilirsiniz</p>
+                            </div>
+                            
+                            <div id="resultContainer" class="text-center">
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Lütfen formu doldurup "Tahmin Yap" butonuna tıklayın.
+                                </div>
+                            </div>
+                            
+                            <div id="loadingSpinner" class="text-center d-none">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Yükleniyor...</span>
+                                </div>
+                                <p class="mt-2">Model tahmin yapıyor...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
